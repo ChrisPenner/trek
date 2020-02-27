@@ -80,6 +80,11 @@ withAll s exp = do
     xs <- with s exp
     flatten' xs
 
+withEachOf :: Monoid r' => Fold t s -> Explorer [r] s r -> Explorer r' t r
+withEachOf fld exp = do
+    a <- fetch fld
+    withAll a $ exp
+
 with' :: (a -> r) -> s -> Explorer r s a -> Explorer r' t r
 with' f s exp = return $ runExplorerWith f exp s
 
@@ -92,29 +97,28 @@ runExplorerWith f (Explorer c) s = flip evalState s $ runContT c (pure . f)
 test :: ToJSON a => Explorer a s a -> s -> IO ()
 test exp s = BL.putStrLn . encodePretty $ runExplorer exp s
 
+collectMap :: (Ord k, Applicative f) => [(k, f v)] -> f (M.Map k v)
+collectMap = sequenceA . M.fromList
+
 -- sequence' :: f (Explorer r s a) -> Explorer r s (f a)
 
 
 example :: Monoid r => Explorer r Value [M.Map T.Text Value]
-example = do
+example = collectList $ do
     foods <- fetch (key "foodsByName")
-    user <- flatten (key "users" . values)
-    with user $ do
+    withEachOf (key "users" . values) $ do
     userFavFood <- fetch (key "favoriteFood")
-    sequenceA . M.fromList
-                $ [ ("name", fetch (key "name"))
-                  , ("favoriteFood", fmap toJSON . sequenceA $
-                        M.fromList @T.Text [ ("food", return $ userFavFood)
-                                   , ("category", do
-                                        userFood <- fetch (key "favoriteFood" . _String)
-                                        withAll foods $ do
-                                        fetch (ix userFood . key "category")
-                                     )
-                                   ]
-
-
-                      )
-                    ]
+    collectMap $ [ ("name", fetch (key "name"))
+                 , ("favoriteFood", fmap toJSON . collectMap @T.Text $ 
+                                  [ ("food", return $ userFavFood)
+                                  , ("category", do
+                                       userFood <- fetch (key "favoriteFood" . _String)
+                                       withAll foods $ do
+                                       fetch (ix userFood . key "category")
+                                    )
+                                  ]
+                     )
+                   ]
 
 
 

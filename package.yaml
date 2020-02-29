@@ -30,6 +30,7 @@ dependencies:
 - text
 - bytestring
 - aeson-pretty
+- logict
 
 library:
   source-dirs: src

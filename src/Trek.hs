@@ -46,8 +46,6 @@ val = view @T.Text (singular _JSON) [r|
     |]
 
 
--- sequence' :: f (Explorer r s a) -> Explorer r s (f a)
-
 test :: ToJSON a => Trek s a -> s -> IO ()
 test exp s = BL.putStrLn . encodePretty $ runTrek1 exp s
 

@@ -2,6 +2,12 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
+
 module Trek.Monad where
 
 import Control.Monad.Logic
@@ -22,38 +28,14 @@ import Control.Applicative
 newtype Trek s a = Trek (LogicT (State s) a)
   deriving newtype (Functor, Applicative, Monad, MonadState s, Alternative)
 
-iter :: Foldable f => f a -> Trek s a
-iter = asum . fmap pure . toList
+-- type instance Zoomed (Trek s) = Zoomed (State s)
 
-fetch :: Fold s a -> Trek s a
-fetch fld = gets (toListOf fld) >>= iter
-
-collectList :: Trek s a -> Trek s [a]
-collectList trek = do
-    s <- get
-    return $ runTrek trek s
-
-with :: s -> Trek s a -> Trek t a
-with s trek =
-    let xs = runTrek trek s
-     in iter xs
-
-withAll :: [s] -> Trek s a -> Trek t a
-withAll xs trek =
-    iter xs >>= flip with trek
-
-withEachOf :: Fold t s -> Trek s a -> Trek t a
-withEachOf fld exp = do
-    xs <- collectList (fetch fld)
-    asum $ fmap (flip with exp) xs
-
-runTrek :: Trek s a -> s -> [a]
-runTrek (Trek logt) s = flip evalState s $ observeAllT logt
-
-runTrek1 :: Trek s a -> s -> a
-runTrek1 (Trek logt) s = flip evalState s $ observeT logt
-
-collectMap :: (Ord k, Applicative f) => [(k, f v)] -> f (M.Map k v)
-collectMap = sequenceA . M.fromList
-
-
+-- instance Zoom (Trek s) (Trek t) s t where
+--   zoom :: forall s t c. LensLike' (Zoomed (Trek s) c) t s -> Trek s c -> Trek t c
+--   zoom trav (Trek logt) = do
+--     let st = observeAllT logt
+--     let zst = zoom trav st
+--     xs <- Trek (lift zst)
+--     iter xs
+--     where
+--       iter = asum . fmap pure . toList

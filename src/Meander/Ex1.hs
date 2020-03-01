@@ -13,6 +13,8 @@ import Trek.Combinators
 import Trek.Optics
 import qualified Data.Map as M
 
+-- https://cljdoc.org/d/meander/epsilon/0.0.397/doc/readme
+
 --- Data Declarations
 
 data Food =

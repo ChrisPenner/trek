@@ -10,6 +10,10 @@ import Trek.Monad
 import Trek.Combinators
 import Data.Foldable
 
+infixr 6 <+>
+(<+>) :: Fold s a -> Fold s a -> Fold s a
+(<+>) fldA fldB = folding (\s -> s ^.. fldA <> s ^.. fldB)
+
 selecting :: Fold s a -> Trek s a
 selecting fld = selectEach (toListOf fld)
 

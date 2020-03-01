@@ -1,1 +1,3 @@
-# opticus-prime
+# Trek
+
+Experiments in jq & meander like data transformation APIs

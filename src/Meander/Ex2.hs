@@ -13,6 +13,8 @@ import Trek.Combinators
 import Trek.Optics
 import qualified Data.Map as M
 
+-- Search Queries: Clojure
+
 -- (defn grab-all-foods [user]
 --   (m/find user
 --     {:favorite-foods [{:name !foods} ...]
@@ -24,6 +26,7 @@ import qualified Data.Map as M
 --     !foods))
 
 
+--- Data Declarations
 data Food = Food {_name :: String}
 makeLenses ''Food
 
@@ -45,8 +48,9 @@ data Foods = Foods
     }
 makeLenses ''Foods
 
+-- Query
 grabAllFoods :: Trek Foods [String]
-grabAllFoods = do
+grabAllFoods =
     collectList $ do
         selecting (   favouriteFoods . folded . name
                   <+> specialFood

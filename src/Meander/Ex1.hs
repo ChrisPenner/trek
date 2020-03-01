@@ -15,6 +15,38 @@ import qualified Data.Map as M
 
 -- https://cljdoc.org/d/meander/epsilon/0.0.397/doc/readme
 
+---Clojure
+
+-- (defn favorite-food-info [foods-by-name user]
+--   (m/match {:user user
+--             :foods-by-name foods-by-name}
+--     {:user
+--      {:name ?name
+--       :favorite-food {:name ?food}}
+--      :foods-by-name {?food {:popularity ?popularity
+--                             :calories ?calories}}}
+--     {:name ?name
+--      :favorite {:food ?food
+--                 :popularity ?popularity
+--                 :calories ?calories}}))
+
+-- (def foods-by-name
+--   {:nachos {:popularity :high
+--             :calories :lots}
+--    :smoothie {:popularity :high
+--               :calories :less}})
+
+-- (favorite-food-info foods-by-name
+--   {:name :alice
+--    :favorite-food {:name :nachos}})
+-- ;; =>
+-- {:name :alice
+--  :favorite {:food :nachos
+--             :popularity :high
+--             :calories :lots}}
+
+
+
 --- Data Declarations
 
 data Food =

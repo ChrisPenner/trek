@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes #-}
 module Trek.Combinators where
 
 import Trek.Monad
@@ -10,7 +11,7 @@ import Data.Foldable
 select :: (s -> a) -> Trek s a
 select getter = gets getter
 
-selectEach :: (s -> [a]) -> Trek s a
+selectEach :: Foldable f => (s -> f a) -> Trek s a
 selectEach getter = gets getter >>= iter
 
 iter :: Foldable f => f a -> Trek s a
@@ -19,22 +20,49 @@ iter = asum . fmap pure . toList
 collectList :: Trek s a -> Trek s [a]
 collectList trek = do
     s <- get
-    return $ runTrek trek s
+    return $ evalTrek trek s
+
+using :: (t -> s) -> Trek s a -> Trek t a
+using f trek = do
+    s <- select f
+    with s trek
+
+usingEach :: Foldable f => (t -> f s) -> Trek s a -> Trek t a
+usingEach f trek = do
+    s <- selectEach f
+    with s trek
+
+fill :: Functor f => f (s -> a) -> Trek s (f a)
+fill fs = do
+    s <- get
+    return $ fmap ($ s) fs
 
 with :: s -> Trek s a -> Trek t a
 with s trek =
-    let xs = runTrek trek s
+    let xs = evalTrek trek s
      in iter xs
 
-withEach :: [s] -> Trek s a -> Trek t a
+withEach :: Foldable f => f s -> Trek s a -> Trek t a
 withEach xs trek =
     iter xs >>= flip with trek
 
-runTrek :: Trek s a -> s -> [a]
-runTrek (Trek logt) s = flip evalState s $ observeAllT logt
+evalTrek :: Trek s a -> s -> [a]
+evalTrek t s = fst $ runTrek t s
 
-runTrek1 :: Trek s a -> s -> a
-runTrek1 (Trek logt) s = flip evalState s $ observeT logt
+evalTrek1 :: Trek s a -> s -> a
+evalTrek1 t s = fst $ runTrek1 t s
 
-collectMap :: (Ord k, Applicative f) => [(k, f v)] -> f (M.Map k v)
+execTrek :: Trek s a -> s -> s
+execTrek t s = snd $ runTrek t s
+
+execTrek1 :: Trek s a -> s -> s
+execTrek1 t s = snd $ runTrek1 t s
+
+runTrek :: Trek s a -> s -> ([a], s)
+runTrek (Trek logt) s = flip runState s $ observeAllT logt
+
+runTrek1 :: Trek s a -> s -> (a, s)
+runTrek1 (Trek logt) s = flip runState s $ observeT logt
+
+collectMap :: forall k v s. Ord k => [(k, Trek s v)] -> Trek s (M.Map k v)
 collectMap = sequenceA . M.fromList

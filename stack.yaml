@@ -39,7 +39,10 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-# extra-deps: []
+extra-deps:
+- barbies-2.0.0.0@sha256:673a2554477aafb79f6836e3f2c00cb2f1309d205985a5151ec818a5186b3a60,4233
+
+- monad-dijkstra-0.1.1.2@sha256:4bca3eca6358f916b06501f82c7bfa4c59236af0ac8cac551854c2e928e78c37,1962
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

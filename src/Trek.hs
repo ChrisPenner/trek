@@ -5,12 +5,13 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE BlockArguments #-}
 module Trek where
 
 import Control.Monad.State
 import Control.Monad.Cont
 import Control.Lens
-import Data.Aeson
+import Data.Aeson hiding ((.=))
 import Data.Aeson.Encode.Pretty
 import Data.Aeson.Lens
 import qualified Data.Map as M
@@ -20,6 +21,9 @@ import Data.Foldable
 import Data.Semigroup
 import qualified Data.ByteString.Lazy.Char8 as BL
 import Trek.Monad
+import Trek.Combinators
+import Trek.Optics
+import Trek.HKD
 
 val :: Value
 val = view @T.Text (singular _JSON) [r|
@@ -45,26 +49,78 @@ val = view @T.Text (singular _JSON) [r|
 }
     |]
 
+peeps :: Value
+peeps = view @T.Text (singular _JSON) [r|
+{
+  "users": [
+    {
+      "firstName": "Mal",
+      "lastName": "Reynolds"
+    },
+    {
+      "firstName": "Hoban",
+      "lastName": "Washburne"
+    },
+    {
+      "firstName": "Kaywinnet",
+      "lastName": "Frye"
+    }
+  ],
+  "occupations" : {
+    "Mal Reynolds": "Captain",
+    "Hoban Washburne": "Pilot",
+    "Kaywinnet Frye": "Mechanic"
+  }
+}
+    |]
 
-test :: ToJSON a => Trek s a -> s -> IO ()
-test exp s = BL.putStrLn . encodePretty $ runTrek1 exp s
+
+addFullName :: Trek Value ()
+addFullName = do
+    occupations <- selecting (key "occupations")
+    focusing (key "users" . values) $ do
+        firstName <- selecting (key "firstName" . _String)
+        lastName <- selecting (key "lastName" . _String)
+        let fullName = firstName <> " " <> lastName
+        _Object . at "fullName" . non "" . _String .= fullName
+        _Object . at "job" . non "" <~ selectingFrom occupations (key fullName)
+
+
+testEval :: ToJSON a => Trek s a -> s -> IO ()
+testEval exp s = BL.putStrLn . encodePretty $ evalTrek exp s
+testExec :: ToJSON s => Trek s a -> s -> IO ()
+testExec exp s = BL.putStrLn . encodePretty $ execTrek exp s
+
+exampleB :: Trek Value Value
+exampleB = do
+    foods <- selecting (key "foodsByName")
+    withEachOf (key "users" . values) . fmap toJSON . runHKD $ do
+        FoodMap
+            { favoriteFood = Food
+                  { food = selecting (key "favoriteFood" . _String)
+                  , category = do
+                        userFood <- selecting (key "favoriteFood" . _String)
+                        with foods $ selecting (ix userFood . key "category" . _String)
+                  }
+            , name = selecting (key "name" . _String)
+            }
 
 example :: Trek Value [M.Map T.Text Value]
 example = collectList $ do
-    foods <- fetch (key "foodsByName")
+    foods <- selecting (key "foodsByName")
     withEachOf (key "users" . values) $ do
-    userFavFood <- fetch (key "favoriteFood")
-    collectMap $ [ ("name", fetch (key "name"))
-                 , ("favoriteFood", fmap toJSON . collectMap @T.Text $
-                                  [ ("food", return $ userFavFood)
-                                  , ("category", do
-                                       userFood <- fetch (key "favoriteFood" . _String)
-                                       with foods $ do
-                                       fetch (ix userFood . key "category")
-                                    )
-                                  ]
-                     )
-                   ]
+        userFavFood <- selecting (key "favoriteFood")
+        collectMap $ [ ("name", selecting (key "name"))
+                     , ("favoriteFood", fmap toJSON . collectMap $
+                                      [ ("food" :: T.Text , return userFavFood)
+                                      , ("category", do
+                                           userFood <- selecting (key "favoriteFood" . _String)
+                                           with foods $ do
+                                           selecting (ix userFood . key "category")
+                                        )
+                                      ]
+                         )
+                       ]
 
 
 

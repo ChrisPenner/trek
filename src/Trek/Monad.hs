@@ -1,3 +1,4 @@
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE RankNTypes #-}
@@ -7,6 +8,7 @@
 {-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE DerivingVia #-}
 
 module Trek.Monad where
 
@@ -24,9 +26,13 @@ import Data.Foldable
 import Data.Semigroup
 import qualified Data.ByteString.Lazy.Char8 as BL
 import Control.Applicative
+import Data.Monoid
+import Control.Monad.Fail
+
 
 newtype Trek s a = Trek (LogicT (State s) a)
-  deriving newtype (Functor, Applicative, Monad, MonadState s, Alternative)
+  deriving newtype (Functor, Applicative, Monad, MonadState s, Alternative, MonadFail)
+  deriving (Semigroup, Monoid) via Ap (LogicT (State s)) a
 
 -- type instance Zoomed (Trek s) = Zoomed (State s)
 

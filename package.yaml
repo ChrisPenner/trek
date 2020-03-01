@@ -32,6 +32,7 @@ dependencies:
 - bytestring
 - aeson-pretty
 - logict
+- barbies >= 2.0.0.0 && < 3
 
 library:
   source-dirs: src

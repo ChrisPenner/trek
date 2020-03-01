@@ -1,5 +1,6 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts #-}
 module Trek.Optics where
 
 import Control.Lens
@@ -9,23 +10,29 @@ import Trek.Monad
 import Trek.Combinators
 import Data.Foldable
 
-selectEachOf :: Fold s a -> Trek s a
-selectEachOf fld = gets (toListOf fld) >>= iter
+selecting :: Fold s a -> Trek s a
+selecting fld = selectEach (toListOf fld)
+
+selectingFrom :: s -> Fold s a -> Trek t a
+selectingFrom s fld = with s $ selecting fld
+
+selectAll :: Each x y (Trek s b) b => x -> Trek s y
+selectAll = sequenceAOf each
 
 withEachOf :: Fold t s -> Trek s a -> Trek t a
 withEachOf fld exp = do
-    xs <- collectList (selectEachOf fld)
+    xs <- collectList (selecting fld)
     withEach xs exp
 
 infixr 4 %>
 -- | Zoom a trek through a traversal
 (%>) :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
-(%>) = using
+(%>) = focusing
 
-infixr 4 `using`
+infixr 4 `focusing`
 -- | Zoom a trek through a traversal
-using :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
-using trav (Trek logt) = do
+focusing :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
+focusing trav (Trek logt) = do
     let st = observeAllT logt
     let zst :: State s [a] = zoom trav st
     xs <- Trek (lift zst)

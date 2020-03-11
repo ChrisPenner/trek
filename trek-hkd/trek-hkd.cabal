@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: b0693308b6a1a9942e26eddb0354d9d3e4c8102f83eeb991f0cbe9ba6c055997
+
+name:           trek-hkd
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/trek-hkd#readme>
+homepage:       https://github.com/githubuser/trek-hkd#readme
+bug-reports:    https://github.com/githubuser/trek-hkd/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/trek-hkd
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_trek_hkd
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable trek-hkd-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_trek_hkd
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , trek-hkd
+  default-language: Haskell2010
+
+test-suite trek-hkd-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_trek_hkd
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , trek-hkd
+  default-language: Haskell2010

@@ -5,7 +5,7 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
-module Meander.Ex3 where
+module Examples.Meander.Ex3 where
 
 import Control.Lens
 import Trek.Monad

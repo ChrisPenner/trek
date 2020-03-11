@@ -1,6 +1,6 @@
-name:                opticus-prime
+name:                trek-examples
 version:             0.1.0.0
-github:              "githubuser/opticus-prime"
+github:              "githubuser/trek-examples"
 license:             BSD3
 author:              "Author name here"
 maintainer:          "example@example.com"
@@ -17,39 +17,19 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/opticus-prime#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/trek-examples#readme>
 
 dependencies:
 - base >= 4.7 && < 5
-- lens
-- aeson
-- aeson-extra
-- lens-aeson
-- raw-strings-qq
-- mtl
 - containers
-- text
-- bytestring
-- aeson-pretty
-- logict
-- barbies >= 2.0.0.0 && < 3
+- trek
+- lens
 
 library:
   source-dirs: src
 
-executables:
-  opticus-prime-exe:
-    main:                Main.hs
-    source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    dependencies:
-    - opticus-prime
-
 tests:
-  opticus-prime-test:
+  trek-examples-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -57,4 +37,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - opticus-prime
+    - trek-examples

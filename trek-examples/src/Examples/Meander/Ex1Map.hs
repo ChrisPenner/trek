@@ -5,7 +5,7 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 
-module Meander.Ex1 where
+module Examples.Meander.Ex1Map where
 
 import Control.Lens
 import Trek.Monad
@@ -46,35 +46,14 @@ import qualified Data.Map as M
 --             :calories :lots}}
 
 
-
 --- Data Declarations
 
-data Food =
-    Food { _popularity :: String
-         , _calories   :: String
-         }
-    deriving (Show, Eq)
-makeFieldsNoPrefix ''Food
-
-type FoodsByName = M.Map String Food
-data User =
-    User { _name    :: String
-         , _favFood :: String
-         }
-    deriving (Show, Eq)
-makeFieldsNoPrefix ''User
-
-data Favourite =
-    Favourite { _food       :: String
-              , _popularity :: String
-              , _calories   :: String
-              }
-    deriving (Show, Eq)
-makeFieldsNoPrefix ''Favourite
+type FoodsByName = M.Map String (M.Map String String)
+type User = M.Map String String
 
 data UserFav =
     UserFav { _name     :: String
-            , _favorite :: Favourite
+            , _favorite :: M.Map String String
             }
     deriving (Show, Eq)
 makeFieldsNoPrefix ''UserFav
@@ -83,17 +62,26 @@ makeFieldsNoPrefix ''UserFav
 
 foodsByName :: FoodsByName
 foodsByName =
-    M.fromList [ ("nachos", Food "high" "lots")
-               , ("smoothie", Food "high" "less")
+    M.fromList [ ("nachos",   M.fromList [("popularity", "high"), ("calories", "lots")])
+               , ("smoothie", M.fromList [("popularity", "high"), ("calories", "less")])
                ]
 
-alice :: User
-alice = User "alice" "nachos"
+alice :: M.Map String String
+alice = M.fromList [("name", "alice"), ("food", "nachos")]
+
+--- Handy combinator
+
+pluck :: (Ord k, Traversable f) => f k -> Trek (M.Map k a) (f a)
+pluck fs = traverse (selectEach . M.lookup) fs
 
 --- Converter
-
 convert :: Trek (FoodsByName, User) UserFav
 convert = do
-    User name food <- select snd
-    Food pop cal   <- selectEach (M.lookup food . fst)
-    return $ UserFav name (Favourite food pop cal)
+    [name, food] <- using snd $ pluck ["name", "food"]
+    [popularity, calories] <- usingEach (M.lookup food . fst)
+        $ pluck ["popularity", "calories"]
+    return
+        $ UserFav name (M.fromList [ ("food", food)
+                                   , ("popularity", popularity)
+                                   , ("calories", calories)
+                                   ])

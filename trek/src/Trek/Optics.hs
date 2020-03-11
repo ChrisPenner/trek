@@ -1,6 +1,7 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 module Trek.Optics where
 
 import Control.Lens
@@ -10,9 +11,17 @@ import Trek.Monad
 import Trek.Combinators
 import Data.Foldable
 
-infixr 6 <+>
+infixr 4 <+@>
+(<+@>) :: (Indexable i p, Contravariant f, Applicative f) => IndexedFold i s a -> IndexedFold i s a -> p a (f a) -> s -> f s
+fldA <+@> fldB = conjoined (fldA <+> fldB) (ifolding (\s -> (s ^@.. fldA) <> (s ^@.. fldB)))
+
+infixr 4 <+>
 (<+>) :: Fold s a -> Fold s a -> Fold s a
-(<+>) fldA fldB = folding (\s -> s ^.. fldA <> s ^.. fldB)
+fldA <+> fldB = (folding (\s -> (s ^.. fldA) <> (s ^.. fldB)))
+
+
+-- testing :: String
+-- testing = ['a', 'b'] ^.. (folded <+> folded)
 
 selecting :: Fold s a -> Trek s a
 selecting fld = selectEach (toListOf fld)

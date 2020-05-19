@@ -1,0 +1,7 @@
+resolver: lts-14.20
+
+packages:
+- .
+- ../trek
+
+extra-deps: []

@@ -2,14 +2,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
-module Trek.Optics where
+module Trek.Lens where
 
 import Control.Lens
+import Trek
 import Control.Monad.State
 import Control.Monad.Logic
-import Trek.Monad
-import Trek.Combinators
-import Data.Foldable
 
 infixr 4 <+@>
 (<+@>) :: (Indexable i p, Contravariant f, Applicative f) => IndexedFold i s a -> IndexedFold i s a -> p a (f a) -> s -> f s
@@ -45,8 +43,8 @@ infixr 4 %>
 infixr 4 `focusing`
 -- | Zoom a trek through a traversal
 focusing :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
-focusing trav (Trek logt) = do
+focusing trav (TrekT logt) = do
     let st = observeAllT logt
     let zst :: State s [a] = zoom trav st
-    xs <- Trek (lift zst)
+    xs <- TrekT (lift zst)
     iter xs

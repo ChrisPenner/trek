@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0d7306ac2968de9f0a38ef67a2449a315c44c017ff3288afa21dce03264cffbc
+-- hash: cc09c003e4f40838be1fff1d3afd4f3d951faae08f7b6851fc62fef3e58069dc
 
 name:           trek-lens
 version:        0.1.0.0
@@ -27,13 +27,17 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Trek.Lens
   other-modules:
       Paths_trek_lens
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , lens
+    , logict
+    , mtl
+    , trek
   default-language: Haskell2010
 
 test-suite trek-lens-test
@@ -46,5 +50,9 @@ test-suite trek-lens-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , lens
+    , logict
+    , mtl
+    , trek
     , trek-lens
   default-language: Haskell2010

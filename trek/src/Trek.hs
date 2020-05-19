@@ -7,7 +7,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE BlockArguments #-}
 module Trek
-    ( Trek(..)
+    ( TrekT(..)
+    , Trek
     , select
     , selectEach
     , iter
@@ -23,24 +24,19 @@ module Trek
     , execTrek1
     , runTrek
     , runTrek1
+
+    -- * Re-Exports
+    , get
+    , gets
+    , put
+    , ask
+    , asks
     ) where
 
+import Control.Monad.Reader
 import Control.Monad.State
-import Control.Monad.Cont
-import Control.Lens
-import Data.Aeson hiding ((.=))
-import Data.Aeson.Encode.Pretty
-import Data.Aeson.Lens
-import qualified Data.Map as M
-import Text.RawString.QQ (r)
-import Data.Text as T
-import Data.Foldable
-import Data.Semigroup
-import qualified Data.ByteString.Lazy.Char8 as BL
 import Trek.Monad
 import Trek.Combinators
-import Trek.Optics
-import Trek.HKD
 
 -- val :: Value
 -- val = view @T.Text (singular _JSON) [r|
@@ -142,19 +138,19 @@ import Trek.HKD
 
 
 
--- -- example :: Explorer Value ()
--- -- example = do
--- --     foods <- use foodsByName
--- --     collectList $ do
--- --         user <- flatten users
--- --         with user $ do
--- --         result <- sequence' . M.fromList
--- --                    $ [ ("name": use name)
--- --                      , ("category": do
--- --                          userFood <- use favoriteFood
--- --                          with foods
--- --                          use (ix userFood . category)
--- --                        )]
+-- example :: Explorer Value ()
+-- example = do
+--     foods <- use foodsByName
+--     collectList $ do
+--         user <- flatten users
+--         with user $ do
+--         result <- sequence' . M.fromList
+--                    $ [ ("name": use name)
+--                      , ("category": do
+--                          userFood <- use favoriteFood
+--                          with foods
+--                          use (ix userFood . category)
+--                        )]
 
 
 

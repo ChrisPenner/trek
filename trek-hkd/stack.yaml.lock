@@ -11,13 +11,6 @@ packages:
       sha256: 4399f288b19035903567fbf0ffc41c65b8de81480832539d0590f24837ac1c04
   original:
     hackage: barbies-2.0.0.0@sha256:673a2554477aafb79f6836e3f2c00cb2f1309d205985a5151ec818a5186b3a60,4233
-- completed:
-    hackage: monad-dijkstra-0.1.1.2@sha256:4bca3eca6358f916b06501f82c7bfa4c59236af0ac8cac551854c2e928e78c37,1962
-    pantry-tree:
-      size: 333
-      sha256: 055ea4bab35e29fc8a2e4f8e2a9b3acb2219d1f074729ba9ef96308b64b11876
-  original:
-    hackage: monad-dijkstra-0.1.1.2@sha256:4bca3eca6358f916b06501f82c7bfa4c59236af0ac8cac551854c2e928e78c37,1962
 snapshots:
 - completed:
     size: 524154

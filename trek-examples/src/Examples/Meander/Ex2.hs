@@ -10,7 +10,7 @@ module Examples.Meander.Ex2 where
 import Control.Lens
 import Trek.Monad
 import Trek.Combinators
-import Trek.Optics
+import Trek.Lens
 import qualified Data.Map as M
 
 -- Search Queries: Clojure

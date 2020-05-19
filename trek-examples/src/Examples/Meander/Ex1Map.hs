@@ -10,7 +10,7 @@ module Examples.Meander.Ex1Map where
 import Control.Lens
 import Trek.Monad
 import Trek.Combinators
-import Trek.Optics
+import Trek.Lens
 import qualified Data.Map as M
 
 -- https://cljdoc.org/d/meander/epsilon/0.0.397/doc/readme

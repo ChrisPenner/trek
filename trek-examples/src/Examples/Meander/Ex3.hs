@@ -10,7 +10,7 @@ module Examples.Meander.Ex3 where
 import Control.Lens
 import Trek.Monad
 import Trek.Combinators
-import Trek.Optics
+import Trek.Lens
 import Control.Monad.State
 import Control.Applicative
 

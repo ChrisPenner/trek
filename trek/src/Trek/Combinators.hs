@@ -59,10 +59,17 @@ execTrek1 :: Trek s a -> s -> s
 execTrek1 t s = snd $ runTrek1 t s
 
 runTrek :: Trek s a -> s -> ([a], s)
-runTrek (Trek logt) s = flip runState s $ observeAllT logt
+runTrek (TrekT logt) s = flip runState s $ observeAllT logt
 
 runTrek1 :: Trek s a -> s -> (a, s)
-runTrek1 (Trek logt) s = flip runState s $ observeT logt
+runTrek1 (TrekT logt) s = flip runState s $ observeT logt
+
+runTrekT :: Monad m => TrekT s m a -> s -> m ([a], s)
+runTrekT (TrekT m) s = flip runStateT s $ observeAllT m
+
+runTrekT1 :: Monad m => TrekT s m a -> s -> m (a, s)
+runTrekT1 (TrekT m) s = flip runStateT s $ observeT m
+
 
 collectMap :: forall k v s. Ord k => [(k, Trek s v)] -> Trek s (M.Map k v)
 collectMap = sequenceA . M.fromList

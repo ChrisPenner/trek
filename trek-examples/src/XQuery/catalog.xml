@@ -1,0 +1,19 @@
+<catalog>
+  <product dept="WMN">
+    <number>557</number>
+    <name>Fleece Pullover</name>
+  </product>
+  <product dept="ACC">
+    <number>563</number>
+    <name>Floppy Sun Hat</name>
+  </product>
+  <product dept="ACC">
+    <number>443</number>
+    <name>Deluxe Travel Bag</name>
+  </product>
+  <product dept="MEN">
+    <number>784</number>
+    <name>Cotton Dress Shirt</name>
+    <desc>Our favorite shirt!</desc>
+  </product>
+</catalog>

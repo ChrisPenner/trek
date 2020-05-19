@@ -1,0 +1,8 @@
+resolver: lts-14.20
+
+packages:
+- .
+
+extra-deps:
+- barbies-2.0.0.0@sha256:673a2554477aafb79f6836e3f2c00cb2f1309d205985a5151ec818a5186b3a60,4233
+- ../trek

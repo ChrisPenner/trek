@@ -24,6 +24,10 @@ dependencies:
 - containers
 - trek
 - lens
+- text
+- taggy-lens
+- blaze-markup
+- blaze-html
 
 library:
   source-dirs: src

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5069aee716a2f5610f39342d3e2fe10a049da1e8c6fda7a6e9031518eba31876
+-- hash: 8a1eb73604106a225860e1f60d3111f11bdc4d5178545054031ccf52e098ca51
 
 name:           trek-examples
 version:        0.1.0.0
@@ -31,14 +31,19 @@ library
       Examples.Meander.Ex1Map
       Examples.Meander.Ex2
       Examples.Meander.Ex3
+      XQuery.Catalog
   other-modules:
       Paths_trek_examples
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , blaze-html
+    , blaze-markup
     , containers
     , lens
+    , taggy-lens
+    , text
     , trek
   default-language: Haskell2010
 
@@ -52,8 +57,12 @@ test-suite trek-examples-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , blaze-html
+    , blaze-markup
     , containers
     , lens
+    , taggy-lens
+    , text
     , trek
     , trek-examples
   default-language: Haskell2010

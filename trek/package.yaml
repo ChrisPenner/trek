@@ -21,18 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
-- lens
-- aeson
-- aeson-extra
-- lens-aeson
-- raw-strings-qq
 - mtl
 - containers
-- text
-- bytestring
-- aeson-pretty
 - logict
-- barbies >= 2.0.0.0 && < 3
 
 library:
   source-dirs: src

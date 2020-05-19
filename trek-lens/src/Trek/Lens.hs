@@ -14,37 +14,34 @@ infixr 4 <+@>
 fldA <+@> fldB = conjoined (fldA <+> fldB) (ifolding (\s -> (s ^@.. fldA) <> (s ^@.. fldB)))
 
 infixr 4 <+>
+-- | (<+>) allows you to append multiple folds into one
 (<+>) :: Fold s a -> Fold s a -> Fold s a
 fldA <+> fldB = (folding (\s -> (s ^.. fldA) <> (s ^.. fldB)))
 
-
--- testing :: String
--- testing = ['a', 'b'] ^.. (folded <+> folded)
-
-selecting :: Fold s a -> Trek s a
+selecting :: Monad m => Fold s a -> TrekT s m a
 selecting fld = selectEach (toListOf fld)
 
-selectingFrom :: s -> Fold s a -> Trek t a
+selectingFrom :: Monad m => s -> Fold s a -> TrekT t m a
 selectingFrom s fld = with s $ selecting fld
 
-selectAll :: Each x y (Trek s b) b => x -> Trek s y
+selectAll :: Monad m => Each x y (TrekT s m b) b => x -> TrekT s m y
 selectAll = sequenceAOf each
 
-withEachOf :: Fold t s -> Trek s a -> Trek t a
+withEachOf :: Monad m => Fold t s -> TrekT s m a -> TrekT t m a
 withEachOf fld exp = do
     xs <- collectList (selecting fld)
     withEach xs exp
 
 infixr 4 %>
 -- | Zoom a trek through a traversal
-(%>) :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
+(%>) :: forall m s t a. Monad m => Traversal' s t -> TrekT t m a -> TrekT s m a
 (%>) = focusing
 
 infixr 4 `focusing`
 -- | Zoom a trek through a traversal
-focusing :: forall s t a. Traversal' s t -> Trek t a -> Trek s a
+focusing :: forall s t m a. (Monad m) => Traversal' s t -> TrekT t m a -> TrekT s m a
 focusing trav (TrekT logt) = do
     let st = observeAllT logt
-    let zst :: State s [a] = zoom trav st
+    let zst :: StateT s m [a] = zoom trav st
     xs <- TrekT (lift zst)
     iter xs

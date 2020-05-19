@@ -32,10 +32,10 @@ usingEach f trek = do
     s <- selectEach f
     with s trek
 
-fill :: (Monad m, Functor f) => f (s -> a) -> TrekT s m (f a)
-fill fs = do
-    s <- get
-    return $ fmap ($ s) fs
+-- fill :: (Monad m, Functor f) => f (s -> a) -> TrekT s m (f a)
+-- fill fs = do
+--     s <- get
+--     return $ fmap ($ s) fs
 
 with :: Monad m => s -> TrekT s m a -> TrekT t m a
 with s trek = do
@@ -70,5 +70,5 @@ runTrekT (TrekT m) s = flip runStateT s $ observeAllT m
 runTrekT1 :: Monad m => TrekT s m a -> s -> m (a, s)
 runTrekT1 (TrekT m) s = flip runStateT s $ observeT m
 
-collectMap :: forall k m v s. Ord k => [(k, TrekT s m v)] -> TrekT s m (M.Map k v)
-collectMap = sequenceA . M.fromList
+-- collectMap :: forall k m v s. Ord k => [(k, TrekT s m v)] -> TrekT s m (M.Map k v)
+-- collectMap = sequenceA . M.fromList

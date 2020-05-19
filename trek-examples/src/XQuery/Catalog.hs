@@ -15,9 +15,10 @@ import Control.Monad
 catalogEx :: IO ()
 catalogEx = do
     src <- TIO.readFile "src/XQuery/catalog.xml"
-    print $ evalTrek handler src
+    runTrekT handler' src >>= print
 
-handler :: Trek T.Text Element
+-- http://www.datypic.com/books/xquery/chapter06.html
+handler :: TrekT T.Text IO Element
 handler = do
     parsed <- selecting html
     product <- selectingFrom parsed (allNamed (only "product"))
@@ -26,10 +27,13 @@ handler = do
     selectingFrom product (allNamed (only "name"))
 
 
-    -- withEachOf (allNamed (only "products")) $ do
-    -- dept <- selecting (attr "dept" . _Just)
-    -- guard (dept  `elem` ["ACC", "WMN"])
-    -- selecting (allNamed (only "named"))
+handler' :: TrekT T.Text IO Element
+handler' = do
+    withEachOf (html . allNamed (only "product")) $ do
+      dept <- selecting (attr "dept" . _Just)
+      guard (dept  `elem` ["ACC", "WMN"])
+      selecting (allNamed (only "name"))
+
 
 -- for $prod in doc("catalog.xml")//product
 -- let $prodDept := $prod/@dept

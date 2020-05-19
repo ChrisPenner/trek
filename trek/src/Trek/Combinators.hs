@@ -8,41 +8,41 @@ import Control.Applicative
 import Control.Monad.Logic
 import Data.Foldable
 
-select :: (s -> a) -> Trek s a
+select :: Monad m => (s -> a) -> TrekT s m a
 select getter = gets getter
 
-selectEach :: Foldable f => (s -> f a) -> Trek s a
+selectEach :: (Monad m, Foldable f) => (s -> f a) -> TrekT s m a
 selectEach getter = gets getter >>= iter
 
-iter :: Foldable f => f a -> Trek s a
+iter :: Foldable f => f a -> TrekT s m a
 iter = asum . fmap pure . toList
 
-collectList :: Trek s a -> Trek s [a]
+collectList :: Monad m => TrekT s m a -> TrekT s m [a]
 collectList trek = do
     s <- get
-    return $ evalTrek trek s
+    lift . fmap fst $ runTrekT trek s
 
-using :: (t -> s) -> Trek s a -> Trek t a
+using :: Monad m => (t -> s) -> TrekT s m a -> TrekT t m a
 using f trek = do
     s <- select f
     with s trek
 
-usingEach :: Foldable f => (t -> f s) -> Trek s a -> Trek t a
+usingEach :: (Monad m, Foldable f) => (t -> f s) -> TrekT s m a -> TrekT t m a
 usingEach f trek = do
     s <- selectEach f
     with s trek
 
-fill :: Functor f => f (s -> a) -> Trek s (f a)
+fill :: (Monad m, Functor f) => f (s -> a) -> TrekT s m (f a)
 fill fs = do
     s <- get
     return $ fmap ($ s) fs
 
-with :: s -> Trek s a -> Trek t a
-with s trek =
-    let xs = evalTrek trek s
-     in iter xs
+with :: Monad m => s -> TrekT s m a -> TrekT t m a
+with s trek = do
+    (xs, _) <- lift $ runTrekT trek s
+    iter xs
 
-withEach :: Foldable f => f s -> Trek s a -> Trek t a
+withEach :: (Monad m, Foldable f) => f s -> TrekT s m a -> TrekT t m a
 withEach xs trek =
     iter xs >>= flip with trek
 
@@ -70,6 +70,5 @@ runTrekT (TrekT m) s = flip runStateT s $ observeAllT m
 runTrekT1 :: Monad m => TrekT s m a -> s -> m (a, s)
 runTrekT1 (TrekT m) s = flip runStateT s $ observeT m
 
-
-collectMap :: forall k v s. Ord k => [(k, Trek s v)] -> Trek s (M.Map k v)
+collectMap :: forall k m v s. Ord k => [(k, TrekT s m v)] -> TrekT s m (M.Map k v)
 collectMap = sequenceA . M.fromList

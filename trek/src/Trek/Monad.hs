@@ -26,6 +26,9 @@ newtype TrekT s m a = TrekT (LogicT (StateT s m) a)
   deriving newtype (Functor, Applicative, Monad, MonadState s, Alternative, MonadFail)
   deriving (Semigroup, Monoid) via Ap (LogicT (StateT s m)) a
 
+instance MonadTrans (TrekT s) where
+  lift m = TrekT (lift . lift $ m)
+
 instance (Monad m) => MonadReader s (TrekT s m) where
   ask = get
   local f m = do

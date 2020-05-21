@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cc09c003e4f40838be1fff1d3afd4f3d951faae08f7b6851fc62fef3e58069dc
+-- hash: 76c3786ba97f09e1e670ee48b1bf36e9c44debe98bb9719b62bf8d485d2f759d
 
 name:           trek-lens
-version:        0.1.0.0
+version:        0.0.1.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/trek-lens#readme>
 homepage:       https://github.com/githubuser/trek-lens#readme
 bug-reports:    https://github.com/githubuser/trek-lens/issues

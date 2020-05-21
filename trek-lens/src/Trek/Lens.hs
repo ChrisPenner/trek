@@ -2,7 +2,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
-module Trek.Lens where
+module Trek.Lens (
+    selecting
+    , mounting
+    , focusing
+    , (%>)
+    )
+    where
 
 import Control.Lens
 import Trek

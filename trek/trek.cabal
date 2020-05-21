@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 48b9eaa38de981a94ada0f1f52d62ab6fc24339fb9cb6d4c1d371a3242609d35
+-- hash: cf8d46d5201b4123031eea477f84a036e588d5e3d977ed7fa56ff595f8de298b
 
 name:           trek
 version:        0.1.0.0
@@ -28,8 +28,6 @@ source-repository head
 library
   exposed-modules:
       Trek
-      Trek.Combinators
-      Trek.Monad
   other-modules:
       Paths_trek
   hs-source-dirs:

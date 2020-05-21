@@ -32,7 +32,7 @@ selecting fld = selectEach (toListOf fld)
 -- All state updates are discarded.
 mounting :: Monad m => Fold t s -> TrekT s m a -> TrekT t m a
 mounting fld exp = do
-    xs <- collectList (selecting fld)
+    xs <- collect (selecting fld)
     withEach xs exp
 
 infixr 4 `focusing`

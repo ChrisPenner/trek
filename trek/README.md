@@ -15,3 +15,7 @@ Trek allows you to dive down into nested structures while keeping handles on rel
 You can then transform the structure, collect results, etc.
 
 Trek implicitly handles the idea of missing or multiple values for you, meaning you can write your collections or transformations declaratively.
+
+## `trek-lens`
+
+There's an extension to trek: `trek-lens` which I highly recommend using. It provides the `focusing` combinator which gives Trek a LOT more power. Trek is meant to be used alongside optics.

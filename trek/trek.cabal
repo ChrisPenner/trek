@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cf8d46d5201b4123031eea477f84a036e588d5e3d977ed7fa56ff595f8de298b
+-- hash: 6c8c0450d245d5ee31c6c3de323a2d8755a133416129451b6f29266dded9f7d9
 
 name:           trek
-version:        0.1.0.0
+version:        0.0.1.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/trek#readme>
 homepage:       https://github.com/githubuser/trek#readme
 bug-reports:    https://github.com/githubuser/trek/issues
@@ -34,7 +34,6 @@ library
       src
   build-depends:
       base >=4.7 && <5
-    , containers
     , logict
     , mtl
   default-language: Haskell2010
@@ -49,7 +48,6 @@ test-suite trek-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , containers
     , logict
     , mtl
     , trek

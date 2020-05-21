@@ -9,7 +9,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DerivingVia #-}
-module Trek.Combinators
+module Trek
     (
 
     -- * Types
@@ -44,18 +44,14 @@ module Trek.Combinators
     ) where
 
 import Control.Applicative
-import Control.Applicative
 import Control.Monad.Fail
 import Control.Monad.Identity
 import Control.Monad.Logic
-import Control.Monad.Logic
 import Control.Monad.Reader
-import Control.Monad.State
 import Control.Monad.State
 import Data.Foldable
 import Data.Functor.Identity
 import Data.Monoid
-import qualified Data.Map as M
 
 -- | Pure Trek Monad
 type Trek s a = TrekT s Identity a

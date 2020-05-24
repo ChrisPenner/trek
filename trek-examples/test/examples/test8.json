@@ -1,0 +1,16 @@
+{
+    "input": [
+        {
+            "key": 1,
+            "host": "<host1>",
+            "name": "<name1>"
+        },
+        {
+            "key": 2,
+            "host": "<host2>",
+            "name": "<name2>"
+        }
+    ],
+    "output": ["<name1>", "<name2>"]
+}
+

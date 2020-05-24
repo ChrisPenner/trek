@@ -2,8 +2,7 @@
 module XQuery.Catalog where
 
 import Control.Lens hiding (elements)
-import Trek.Monad
-import Trek.Combinators
+import Trek
 import Trek.Lens
 import qualified Data.Map as M
 import Data.Text.Lazy.IO as TIO
@@ -21,15 +20,15 @@ catalogEx = do
 handler :: TrekT T.Text IO Element
 handler = do
     parsed <- selecting html
-    product <- selectingFrom parsed (allNamed (only "product"))
-    dept <- selectingFrom product (attr "dept" . _Just)
+    product <- iter $ parsed ^.. allNamed (only "product")
+    dept <- iter $ product ^.. attr "dept" . _Just
     guard (dept  `elem` ["ACC", "WMN"])
-    selectingFrom product (allNamed (only "name"))
+    iter $ product ^.. allNamed (only "name")
 
 
 handler' :: TrekT T.Text IO Element
 handler' = do
-    withEachOf (html . allNamed (only "product")) $ do
+    mounting (html . allNamed (only "product")) $ do
       dept <- selecting (attr "dept" . _Just)
       guard (dept  `elem` ["ACC", "WMN"])
       selecting (allNamed (only "name"))

@@ -1,0 +1,10 @@
+{
+    "input": {
+        "Chicago": "Los Angeles",
+        "Seattle": "New York"
+    },
+    "output": {
+        "Los Angeles": "Chicago",
+        "New York": "Seattle"
+    }
+}

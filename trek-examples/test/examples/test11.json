@@ -1,0 +1,33 @@
+[
+  {
+    "input": [
+      {
+        "title": "Young Space",
+        "rooms": [
+          {
+            "color": "white",
+            "owner": "Filippo Clark"
+          },
+          {
+            "color": "black",
+            "owner": "Adams Baker"
+          }
+        ]
+      },
+      {
+        "title": "Old Heart",
+        "rooms": [
+          {
+            "color": "violet",
+            "owner": "Mason Nalty"
+          },
+          {
+            "color": "blue",
+            "owner": "Ochoa Patel"
+          }
+        ]
+      }
+    ],
+    "output": ["white", "black", "violet", "blue"]
+  }
+]

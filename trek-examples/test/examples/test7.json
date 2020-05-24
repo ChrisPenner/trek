@@ -1,0 +1,11 @@
+{
+    "input": {
+        "hostinfo": {
+            "host": "<host1>",
+            "name": "<name1>",
+            "online": true
+        },
+        "id": 0
+    },
+    "output": "<host1>"
+}

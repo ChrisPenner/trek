@@ -1,0 +1,23 @@
+[
+  {
+    "input": [
+      {
+        "name": "Alice",
+        "age": 20,
+        "gpa": 4.0
+      },
+      {
+        "name": "Bob",
+        "age": 22
+      }
+    ],
+    "output": [
+      {
+        "name": "Alice"
+      },
+      {
+        "name": "Bob"
+      }
+    ]
+  }
+]

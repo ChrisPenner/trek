@@ -8,8 +8,7 @@
 module Examples.Meander.Ex1 where
 
 import Control.Lens
-import Trek.Monad
-import Trek.Combinators
+import Trek
 import Trek.Lens
 import qualified Data.Map as M
 

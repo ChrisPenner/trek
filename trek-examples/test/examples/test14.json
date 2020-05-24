@@ -1,0 +1,16 @@
+[
+  {
+    "input": {
+      "nums": [1, 2],
+      "numbers": ["three", "four"]
+    },
+    "output": [1, 2, "three", "four"]
+  },
+  {
+    "input": {
+      "nums": [1, 2],
+      "numbers": ["three", "four"]
+    },
+    "output": [1, 2, "three", "four"]
+  }
+]

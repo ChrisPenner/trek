@@ -8,8 +8,7 @@
 module Examples.Meander.Ex1Map where
 
 import Control.Lens
-import Trek.Monad
-import Trek.Combinators
+import Trek
 import Trek.Lens
 import qualified Data.Map as M
 
@@ -77,8 +76,8 @@ pluck fs = traverse (selectEach . M.lookup) fs
 --- Converter
 convert :: Trek (FoodsByName, User) UserFav
 convert = do
-    [name, food] <- using snd $ pluck ["name", "food"]
-    [popularity, calories] <- usingEach (M.lookup food . fst)
+    [name, food] <- mount snd $ pluck ["name", "food"]
+    [popularity, calories] <- mountEach (M.lookup food . fst)
         $ pluck ["popularity", "calories"]
     return
         $ UserFav name (M.fromList [ ("food", food)

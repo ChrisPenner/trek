@@ -8,8 +8,7 @@
 module Examples.Meander.Ex2 where
 
 import Control.Lens
-import Trek.Monad
-import Trek.Combinators
+import Trek
 import Trek.Lens
 import qualified Data.Map as M
 
@@ -62,19 +61,19 @@ foods = Foods
     }
 
 -- Query
-grabAllFoods :: Trek Foods String
-grabAllFoods = do
-        selecting (   favouriteFoods . folded . name
-                  <+> specialFood
-                  <+> recipes . folded . title
-                  <+> mealPlan . (breakfast <+> lunch <+> dinner) . folded . name
-                  )
+-- grabAllFoods :: Trek Foods String
+-- grabAllFoods = do
+--         selecting (   favouriteFoods . folded . name
+--                   <+> specialFood
+--                   <+> recipes . folded . title
+--                   <+> mealPlan . (breakfast <+> lunch <+> dinner) . folded . name
+--                   )
 
 
-grabAllFoods' :: Foods -> [String]
-grabAllFoods' = toListOf
-                  (   favouriteFoods . folded . name
-                  <+> specialFood
-                  <+> recipes . folded . title
-                  <+> mealPlan . (breakfast <+> lunch <+> dinner) . folded . name
-                  )
+-- grabAllFoods' :: Foods -> [String]
+-- grabAllFoods' = toListOf
+--                   (   favouriteFoods . folded . name
+--                   <+> specialFood
+--                   <+> recipes . folded . title
+--                   <+> mealPlan . (breakfast <+> lunch <+> dinner) . folded . name
+--                   )

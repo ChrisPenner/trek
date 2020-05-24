@@ -1,0 +1,32 @@
+[
+  {
+    "input": {
+      "rooms": [
+        {
+          "color": "white",
+          "owner": "Filippo Clark"
+        },
+        {
+          "color": "black",
+          "owner": "Adams Baker"
+        }
+      ]
+    },
+    "output": ["white", "black"]
+  },
+  {
+    "input": {
+      "rooms": [
+        {
+          "color": "violet",
+          "owner": "Mason Nalty"
+        },
+        {
+          "color": "blue",
+          "owner": "Ochoa Patel"
+        }
+      ]
+    },
+    "output": ["violet", "blue"]
+  }
+]

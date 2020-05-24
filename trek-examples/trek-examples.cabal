@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8a1eb73604106a225860e1f60d3111f11bdc4d5178545054031ccf52e098ca51
+-- hash: b5b08336fddacba872d85f72cc369f3f2b91e64441a0e26f4a6cbea076de11bd
 
 name:           trek-examples
 version:        0.1.0.0
@@ -37,14 +37,20 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blaze-html
     , blaze-markup
     , containers
+    , hspec
     , lens
+    , lens-aeson
+    , mtl
     , taggy-lens
     , text
     , trek
+    , trek-lens
+    , unordered-containers
   default-language: Haskell2010
 
 test-suite trek-examples-test
@@ -56,13 +62,19 @@ test-suite trek-examples-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blaze-html
     , blaze-markup
     , containers
+    , hspec
     , lens
+    , lens-aeson
+    , mtl
     , taggy-lens
     , text
     , trek
     , trek-examples
+    , trek-lens
+    , unordered-containers
   default-language: Haskell2010

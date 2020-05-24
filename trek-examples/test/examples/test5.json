@@ -1,0 +1,7 @@
+{
+    "input": {
+        "name": "John",
+        "age": 20
+    },
+    "output": 20
+}

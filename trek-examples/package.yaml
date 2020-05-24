@@ -23,11 +23,17 @@ dependencies:
 - base >= 4.7 && < 5
 - containers
 - trek
+- trek-lens
 - lens
 - text
 - taggy-lens
 - blaze-markup
 - blaze-html
+- mtl
+- aeson
+- lens-aeson
+- hspec
+- unordered-containers
 
 library:
   source-dirs: src

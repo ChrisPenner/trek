@@ -1,0 +1,13 @@
+{
+    "input": {
+        "key1": {
+            "host": "<host1>",
+            "name": "<name1>"
+        }
+    },
+    "output": {
+        "key": "key1",
+        "host": "<host1>",
+        "name": "<name1>"
+    }
+}

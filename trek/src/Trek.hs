@@ -28,11 +28,15 @@ module Trek
 
     -- * Running Trek
     , evalTrek
+    , evalTrek1
     , evalTrekT
+    , evalTrekT1
     , execTrek
     , execTrekT
     , runTrek
+    , runTrek1
     , runTrekT
+    , runTrekT1
 
     -- * Re-Exports
     , get
@@ -58,9 +62,9 @@ type Trek s a = TrekT s Identity a
 
 -- | The Trek Monad Transformer.
 -- Implements both MonadReader and MonadState.
-newtype TrekT s m a = TrekT (LogicT (StateT s m) a)
+newtype TrekT s m a = TrekT (StateT s (LogicT m) a)
   deriving newtype (Functor, Applicative, Monad, MonadState s, Alternative, MonadFail)
-  deriving (Semigroup, Monoid) via Ap (LogicT (StateT s m)) a
+  deriving (Semigroup, Monoid) via Ap (StateT s (LogicT m)) a
 
 instance MonadTrans (TrekT s) where
   lift m = TrekT (lift . lift $ m)
@@ -91,7 +95,7 @@ iter = asum . fmap pure . toList
 collect :: Monad m => TrekT s m a -> TrekT s m [a]
 collect trek = do
     s <- get
-    lift . fmap fst $ runTrekT trek s
+    lift (fmap fst <$> runTrekT trek s)
 
 -- | Run a 'TrekT' block over a portion of state. All state changes from the block are
 -- discarded.
@@ -122,22 +126,38 @@ withEach xs trek =
 evalTrek :: Trek s a -> s -> [a]
 evalTrek t s = runIdentity $ evalTrekT t s
 
+-- | Evaluate the first result of a 'Trek'.
+evalTrek1 :: Trek s a -> s -> a
+evalTrek1 t s = runIdentity $ evalTrekT1 t s
+
 -- | Evaluate the results of a 'TrekT'.
 evalTrekT :: Monad m => TrekT s m a -> s -> m [a]
-evalTrekT t s = fst <$> runTrekT t s
+evalTrekT t s = fmap fst <$> runTrekT t s
+
+-- | Evaluate the first result of a 'TrekT'.
+evalTrekT1 :: Monad m => TrekT s m a -> s -> m a
+evalTrekT1 t s = fst <$> runTrekT1 t s
 
 -- | Return the altered state after running a 'Trek'.
-execTrek :: Trek s a -> s -> s
+execTrek :: Trek s a -> s -> [s]
 execTrek t s = runIdentity $ execTrekT t s
 
 -- | Return the altered state after running a 'TrekT'.
-execTrekT :: Monad m => TrekT s m a -> s -> m s
-execTrekT t s = snd <$> runTrekT t s
+execTrekT :: Monad m => TrekT s m a -> s -> m [s]
+execTrekT t s = fmap snd <$> runTrekT t s
 
 -- | Run a 'Trek'
-runTrek :: Trek s a -> s -> ([a], s)
+runTrek :: Trek s a -> s -> [(a, s)]
 runTrek t s = runIdentity $ runTrekT t s
 
+-- | Run to get the first result of a 'Trek'
+runTrek1 :: Trek s a -> s -> (a, s)
+runTrek1 t s = runIdentity $ runTrekT1 t s
+
 -- | Run a 'TrekT'
-runTrekT :: Monad m => TrekT s m a -> s -> m ([a], s)
-runTrekT (TrekT m) s = flip runStateT s $ observeAllT m
+runTrekT :: Monad m => TrekT s m a -> s -> m [(a, s)]
+runTrekT (TrekT m) s = observeAllT . flip runStateT s $ m
+
+-- | Run to get the first result of a 'TrekT'
+runTrekT1 :: Monad m => TrekT s m a -> s -> m (a, s)
+runTrekT1 (TrekT m) s = observeT . flip runStateT s $ m

@@ -34,6 +34,8 @@ dependencies:
 - lens-aeson
 - hspec
 - unordered-containers
+- raw-strings-qq
+- bytestring
 
 library:
   source-dirs: src

@@ -47,10 +47,9 @@ infixr 4 `focusing`
 -- are KEPT.
 focusing :: forall s t m a. (Monad m) => Traversal' s t -> TrekT t m a -> TrekT s m a
 focusing trav (TrekT logt) = do
-    let st = observeAllT logt
-    let zst :: StateT s m [a] = zoom trav st
-    xs <- TrekT (lift zst)
-    iter xs
+    -- let st = observeAllT logt
+    let zst :: StateT s (LogicT m) [a] = zoom trav (fmap pure logt)
+    TrekT zst >>= iter
 
 -- Infix alias for 'focusing'
 infixr 4 %>

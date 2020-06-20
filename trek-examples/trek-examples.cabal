@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b5b08336fddacba872d85f72cc369f3f2b91e64441a0e26f4a6cbea076de11bd
+-- hash: dd27bd4cdb9a8e64aff372cf3c1c5fc2c87470029bfd3edf76c3bc65e1a86452
 
 name:           trek-examples
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Examples.Meander.Ex1Map
       Examples.Meander.Ex2
       Examples.Meander.Ex3
+      Examples.Simple.JSON
       XQuery.Catalog
   other-modules:
       Paths_trek_examples
@@ -41,11 +42,13 @@ library
     , base >=4.7 && <5
     , blaze-html
     , blaze-markup
+    , bytestring
     , containers
     , hspec
     , lens
     , lens-aeson
     , mtl
+    , raw-strings-qq
     , taggy-lens
     , text
     , trek
@@ -66,11 +69,13 @@ test-suite trek-examples-test
     , base >=4.7 && <5
     , blaze-html
     , blaze-markup
+    , bytestring
     , containers
     , hspec
     , lens
     , lens-aeson
     , mtl
+    , raw-strings-qq
     , taggy-lens
     , text
     , trek

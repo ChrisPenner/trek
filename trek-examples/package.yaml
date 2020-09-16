@@ -36,6 +36,9 @@ dependencies:
 - unordered-containers
 - raw-strings-qq
 - bytestring
+- logict
+- transformers
+- list-t
 
 library:
   source-dirs: src

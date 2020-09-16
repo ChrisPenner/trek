@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: dd27bd4cdb9a8e64aff372cf3c1c5fc2c87470029bfd3edf76c3bc65e1a86452
+-- hash: 047e143d2c76b09205c83a3c9f17d8c8c88839fb59630ec2b5b0ec3dff46ee6c
 
 name:           trek-examples
 version:        0.1.0.0
@@ -27,11 +27,14 @@ source-repository head
 
 library
   exposed-modules:
+      Examples.Blog.SalaryJoin
+      Examples.Blog.Scope
       Examples.Meander.Ex1
       Examples.Meander.Ex1Map
       Examples.Meander.Ex2
       Examples.Meander.Ex3
       Examples.Simple.JSON
+      Examples.Simple.NameImagePort
       XQuery.Catalog
   other-modules:
       Paths_trek_examples
@@ -47,10 +50,13 @@ library
     , hspec
     , lens
     , lens-aeson
+    , list-t
+    , logict
     , mtl
     , raw-strings-qq
     , taggy-lens
     , text
+    , transformers
     , trek
     , trek-lens
     , unordered-containers
@@ -74,10 +80,13 @@ test-suite trek-examples-test
     , hspec
     , lens
     , lens-aeson
+    , list-t
+    , logict
     , mtl
     , raw-strings-qq
     , taggy-lens
     , text
+    , transformers
     , trek
     , trek-examples
     , trek-lens

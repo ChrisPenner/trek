@@ -25,9 +25,16 @@ packages:
       sha256: 7d2a46b5ade8b57a62888af490d6fb20b217e6fa92b5bf40d53c6e9fd7a3809c
   original:
     hackage: list-transformer-1.0.6@sha256:e214728decb4844b1c6ea0e3243324cfc11ad6da5629d16f06b92f00b6a5bed0,1455
+- completed:
+    hackage: lens-csv-0.1.1.0@sha256:ee88bad464ad7c6662ea3506b902fc098f696839e6f04df5a79ded333286a87f,1346
+    pantry-tree:
+      size: 365
+      sha256: 9ea7b0d50fb04331841c27ad9d5e5c3e352126268524bf876046ec2977d45cfb
+  original:
+    hackage: lens-csv-0.1.1.0@sha256:ee88bad464ad7c6662ea3506b902fc098f696839e6f04df5a79ded333286a87f,1346
 snapshots:
 - completed:
-    size: 524154
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/20.yaml
-    sha256: 2f5099f69ddb6abfe64400fe1e6a604e8e628f55e6837211cd70a81eb0a8fa4d
-  original: lts-14.20
+    size: 532383
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/10.yaml
+    sha256: 469d781ab6d2a4eceed6b31b6e4ec842dcd3cd1d11577972e86902603dce24df
+  original: lts-16.10

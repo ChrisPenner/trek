@@ -38,7 +38,10 @@ dependencies:
 - bytestring
 - logict
 - transformers
+# Too many list transformer choices...
+- list-transformer
 - list-t
+- lens-csv
 
 library:
   source-dirs: src

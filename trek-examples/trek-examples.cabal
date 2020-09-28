@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 047e143d2c76b09205c83a3c9f17d8c8c88839fb59630ec2b5b0ec3dff46ee6c
+-- hash: ebed207969b7f22abf313102c30157ad8af10c700dafe0b8fde6ecf4ba7cc304
 
 name:           trek-examples
 version:        0.1.0.0
@@ -27,6 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      Examples.Blog.CSV
+      Examples.Blog.HTML
+      Examples.Blog.K8s
       Examples.Blog.SalaryJoin
       Examples.Blog.Scope
       Examples.Meander.Ex1
@@ -50,7 +53,9 @@ library
     , hspec
     , lens
     , lens-aeson
+    , lens-csv
     , list-t
+    , list-transformer
     , logict
     , mtl
     , raw-strings-qq
@@ -80,7 +85,9 @@ test-suite trek-examples-test
     , hspec
     , lens
     , lens-aeson
+    , lens-csv
     , list-t
+    , list-transformer
     , logict
     , mtl
     , raw-strings-qq

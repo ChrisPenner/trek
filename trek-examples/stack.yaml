@@ -1,4 +1,4 @@
-resolver: lts-14.20
+resolver: lts-16.10
 
 packages:
 - .
@@ -9,3 +9,4 @@ extra-deps:
 - taggy-0.2.1@sha256:7bc55ddba178971dc6052163597f0445a0a2b5b0ca0e84ce651d53d722e3c265,4662
 - taggy-lens-0.1.2@sha256:091ca81d02bd3d7fb493dce0148e1a38f25eb178a1ebd751043a23239e5e3265,3009
 - list-transformer-1.0.6@sha256:e214728decb4844b1c6ea0e3243324cfc11ad6da5629d16f06b92f00b6a5bed0,1455
+- lens-csv-0.1.1.0@sha256:ee88bad464ad7c6662ea3506b902fc098f696839e6f04df5a79ded333286a87f,1346
